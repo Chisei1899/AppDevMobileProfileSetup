@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'address_page.dart';
+import 'business_detail.dart';
 
-class FillInformationPage extends StatefulWidget {
-  const FillInformationPage({super.key});
+class AddressPage extends StatefulWidget {
+  const AddressPage({super.key});
 
   @override
-  State<FillInformationPage> createState() => _FillInformationPage();
+  State<AddressPage> createState() => _AddressPageState();
 }
 
-class _FillInformationPage extends State<FillInformationPage> {
+class _AddressPageState extends State<AddressPage> {
   bool agreeToTerms = false;
 
   final FocusNode _firstNameFocusNode = FocusNode();
@@ -123,7 +123,7 @@ class _FillInformationPage extends State<FillInformationPage> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.75,
                       child: LinearProgressIndicator(
-                        value: 1 / 5,
+                        value: 2 / 5,
                         backgroundColor: Colors.grey.shade300,
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.blue.shade800),
                         minHeight: 4,
@@ -133,7 +133,7 @@ class _FillInformationPage extends State<FillInformationPage> {
 
                   const SizedBox(height: 30),
                   const Text(
-                    "Step 1 of 5",
+                    "Step 2 of 5",
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 14,
@@ -151,14 +151,13 @@ class _FillInformationPage extends State<FillInformationPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // First Name TextField
                   TextField(
                     controller: _firstNameController,
                     focusNode: _firstNameFocusNode,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                       hintText: _isFirstNameEmpty && !_firstNameFocusNode.hasFocus
-                          ? 'First Name'
+                          ? 'Region'
                           : '',
                       hintStyle: const TextStyle(color: Colors.black38),
                       border: OutlineInputBorder(
@@ -177,14 +176,13 @@ class _FillInformationPage extends State<FillInformationPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Last Name TextField
                   TextField(
                     controller: _lastNameController,
                     focusNode: _lastNameFocusNode,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                       hintText: _isLastNameEmpty && !_lastNameFocusNode.hasFocus
-                          ? 'Last Name'
+                          ? 'City/Town'
                           : '',
                       hintStyle: const TextStyle(color: Colors.black38),
                       border: OutlineInputBorder(
@@ -203,14 +201,13 @@ class _FillInformationPage extends State<FillInformationPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Address TextField
                   TextField(
                     controller: _addressController,
                     focusNode: _addressFocusNode,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                       hintText: _isAddressEmpty && !_addressFocusNode.hasFocus
-                          ? 'Address'
+                          ? 'Suburb'
                           : '',
                       hintStyle: const TextStyle(color: Colors.black38),
                       border: OutlineInputBorder(
@@ -229,14 +226,13 @@ class _FillInformationPage extends State<FillInformationPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Email TextField
                   TextField(
                     controller: _emailController,
                     focusNode: _emailFocusNode,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                       hintText: _isEmailEmpty && !_emailFocusNode.hasFocus
-                          ? 'Email Address'
+                          ? 'Street Name'
                           : '',
                       hintStyle: const TextStyle(color: Colors.black38),
                       border: OutlineInputBorder(
@@ -257,109 +253,77 @@ class _FillInformationPage extends State<FillInformationPage> {
 
                   Row(
                     children: [
-                      Checkbox(
-                        value: agreeToTerms,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            agreeToTerms = value ?? false;
-                          });
-                        },
-                      ),
                       Expanded(
-                        child: Text.rich(
-                          TextSpan(
-                            text: 'I agree to the ',
-                            style: TextStyle(
-                              fontSize: 12.5,
-                              color: Colors.grey,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                            hintText: 'Street No.',
+                            hintStyle: TextStyle(color: Colors.black38),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.black54),
                             ),
-                            children: [
-                              TextSpan(
-                                text: 'Terms & Conditions',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey.shade800,
-                                ),
-                              ),
-                              TextSpan(
-                                text: ' and ',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'Privacy Policy',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey.shade800,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '.',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.black12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.black54, width: 2),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                            hintText: 'Unit No.',
+                            hintStyle: TextStyle(color: Colors.black38),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.black54),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.black12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.black54, width: 2),
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 16),
 
-                  Row(
-                    children: const [
-                      Expanded(child: Divider()),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Text("Or continue with"),
+                  TextField(
+                    controller: _emailController,
+                    focusNode: _emailFocusNode,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                      hintText: _isEmailEmpty && !_emailFocusNode.hasFocus
+                          ? 'Post Code'
+                          : '',
+                      hintStyle: const TextStyle(color: Colors.black38),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.black54),
                       ),
-                      Expanded(child: Divider()),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-
-                  Center(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        // Google sign-in logic
-                      },
-                      icon: Image.asset('assets/google_icon.png', height: 24),
-                      label: const Text('Google'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          side: const BorderSide(color: Colors.black12),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.black12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.black54, width: 2),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        // Navigate to Login
-                      },
-                      child: const Text.rich(
-                        TextSpan(
-                          text: 'Already have an Account? ',
-                          style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w400),
-                          children: [
-                            TextSpan(
-                              text: 'Login here',
-                              style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 65),
+                  const SizedBox(height: 153),
 
                   SizedBox(
                     width: double.infinity,
@@ -367,7 +331,7 @@ class _FillInformationPage extends State<FillInformationPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const AddressPage()),
+                          MaterialPageRoute(builder: (context) => const BusinessDetailPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
