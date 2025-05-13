@@ -276,10 +276,29 @@ class _FillInformationPage extends State<FillInformationPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const AddressPage()),
-                        );
+                        if (_firstNameController.text.trim().isEmpty ||
+                            _lastNameController.text.trim().isEmpty ||
+                            _addressController.text.trim().isEmpty ||
+                            _emailController.text.trim().isEmpty ||
+                            !agreeToTerms) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Center(
+                                child: const Text(
+                                  'Please fill out all fields and agree to the terms.',
+                                  textAlign: TextAlign.center, // Ensures the text is centered
+                                ),
+                              ),
+                              backgroundColor: Colors.red,
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AddressPage()),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.indigo.shade900,
