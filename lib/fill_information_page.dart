@@ -11,56 +11,13 @@ class FillInformationPage extends StatefulWidget {
 class _FillInformationPage extends State<FillInformationPage> {
   bool agreeToTerms = false;
 
-  final FocusNode _firstNameFocusNode = FocusNode();
-  final FocusNode _lastNameFocusNode = FocusNode();
-  final FocusNode _addressFocusNode = FocusNode();
-  final FocusNode _emailFocusNode = FocusNode();
-
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  bool _isFirstNameEmpty = true;
-  bool _isLastNameEmpty = true;
-  bool _isAddressEmpty = true;
-  bool _isEmailEmpty = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _firstNameController.addListener(() {
-      setState(() {
-        _isFirstNameEmpty = _firstNameController.text.isEmpty;
-      });
-    });
-
-    _lastNameController.addListener(() {
-      setState(() {
-        _isLastNameEmpty = _lastNameController.text.isEmpty;
-      });
-    });
-
-    _addressController.addListener(() {
-      setState(() {
-        _isAddressEmpty = _addressController.text.isEmpty;
-      });
-    });
-
-    _emailController.addListener(() {
-      setState(() {
-        _isEmailEmpty = _emailController.text.isEmpty;
-      });
-    });
-  }
-
   @override
   void dispose() {
-    _firstNameFocusNode.dispose();
-    _lastNameFocusNode.dispose();
-    _addressFocusNode.dispose();
-    _emailFocusNode.dispose();
     _firstNameController.dispose();
     _lastNameController.dispose();
     _addressController.dispose();
@@ -94,7 +51,6 @@ class _FillInformationPage extends State<FillInformationPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // First Row: Back Button + Registration Text
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -105,20 +61,18 @@ class _FillInformationPage extends State<FillInformationPage> {
                         },
                         child: Image.asset(
                           'assets/back_arrow.png',
-                          height: 24, // adjust size as needed
+                          height: 24,
                           width: 24,
                         ),
                       ),
-                      const SizedBox(width: 8), // a little space between the back arrow and text
+                      const SizedBox(width: 8),
                       const Text(
                         "Registration",
                         style: TextStyle(fontSize: 19, color: Colors.black54),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 50), // space after back & title row
-
-                  // Second: Linear Progress Indicator
+                  const SizedBox(height: 50),
                   Center(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.75,
@@ -130,126 +84,100 @@ class _FillInformationPage extends State<FillInformationPage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 30),
                   const Text(
                     "Step 1 of 5",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 14),
                   ),
-                  const SizedBox(height: 0),
                   const Text(
                     "Fill your information",
                     style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 2),
                   const Text(
                     "Provide your personal details to get started.",
-                    style: TextStyle(fontSize: 16.5 , color: Colors.grey),
+                    style: TextStyle(fontSize: 16.5, color: Colors.grey),
                   ),
                   const SizedBox(height: 16),
 
-                  // First Name TextField
                   TextField(
                     controller: _firstNameController,
-                    focusNode: _firstNameFocusNode,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: _isFirstNameEmpty && !_firstNameFocusNode.hasFocus
-                          ? 'First Name'
-                          : '',
+                      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                      hintText: 'First Name',
                       hintStyle: const TextStyle(color: Colors.black38),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black12),
+                        borderSide: const BorderSide(color: Colors.black12),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54, width: 2),
+                        borderSide: const BorderSide(color: Colors.black54, width: 2),
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
 
-                  // Last Name TextField
                   TextField(
                     controller: _lastNameController,
-                    focusNode: _lastNameFocusNode,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: _isLastNameEmpty && !_lastNameFocusNode.hasFocus
-                          ? 'Last Name'
-                          : '',
+                      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                      hintText: 'Last Name',
                       hintStyle: const TextStyle(color: Colors.black38),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black12),
+                        borderSide: const BorderSide(color: Colors.black12),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54, width: 2),
+                        borderSide: const BorderSide(color: Colors.black54, width: 2),
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
 
-                  // Address TextField
                   TextField(
                     controller: _addressController,
-                    focusNode: _addressFocusNode,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: _isAddressEmpty && !_addressFocusNode.hasFocus
-                          ? 'Address'
-                          : '',
+                      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                      hintText: 'Address',
                       hintStyle: const TextStyle(color: Colors.black38),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black12),
+                        borderSide: const BorderSide(color: Colors.black12),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54, width: 2),
+                        borderSide: const BorderSide(color: Colors.black54, width: 2),
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
 
-                  // Email TextField
                   TextField(
                     controller: _emailController,
-                    focusNode: _emailFocusNode,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: _isEmailEmpty && !_emailFocusNode.hasFocus
-                          ? 'Email Address'
-                          : '',
+                      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                      hintText: 'Email Address',
                       hintStyle: const TextStyle(color: Colors.black38),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black12),
+                        borderSide: const BorderSide(color: Colors.black12),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54, width: 2),
+                        borderSide: const BorderSide(color: Colors.black54, width: 2),
                       ),
                     ),
                   ),
@@ -269,10 +197,7 @@ class _FillInformationPage extends State<FillInformationPage> {
                         child: Text.rich(
                           TextSpan(
                             text: 'I agree to the ',
-                            style: TextStyle(
-                              fontSize: 12.5,
-                              color: Colors.grey,
-                            ),
+                            style: const TextStyle(fontSize: 12.5, color: Colors.grey),
                             children: [
                               TextSpan(
                                 text: 'Terms & Conditions',
@@ -281,12 +206,7 @@ class _FillInformationPage extends State<FillInformationPage> {
                                   color: Colors.grey.shade800,
                                 ),
                               ),
-                              TextSpan(
-                                text: ' and ',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                              ),
+                              const TextSpan(text: ' and ', style: TextStyle(color: Colors.grey)),
                               TextSpan(
                                 text: 'Privacy Policy',
                                 style: TextStyle(
@@ -294,12 +214,7 @@ class _FillInformationPage extends State<FillInformationPage> {
                                   color: Colors.grey.shade800,
                                 ),
                               ),
-                              TextSpan(
-                                text: '.',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                              ),
+                              const TextSpan(text: '.', style: TextStyle(color: Colors.grey)),
                             ],
                           ),
                         ),
@@ -322,9 +237,7 @@ class _FillInformationPage extends State<FillInformationPage> {
 
                   Center(
                     child: ElevatedButton.icon(
-                      onPressed: () {
-                        // Google sign-in logic
-                      },
+                      onPressed: () {},
                       icon: Image.asset('assets/google_icon.png', height: 24),
                       label: const Text('Google'),
                       style: ElevatedButton.styleFrom(
@@ -342,9 +255,7 @@ class _FillInformationPage extends State<FillInformationPage> {
 
                   Center(
                     child: TextButton(
-                      onPressed: () {
-                        // Navigate to Login
-                      },
+                      onPressed: () {},
                       child: const Text.rich(
                         TextSpan(
                           text: 'Already have an Account? ',
@@ -387,7 +298,6 @@ class _FillInformationPage extends State<FillInformationPage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 50),
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'upload_files.dart';
 
 class PhotoVerificationPage extends StatefulWidget {
   const PhotoVerificationPage({super.key});
@@ -8,78 +9,21 @@ class PhotoVerificationPage extends StatefulWidget {
 }
 
 class _PhotoVerificationPage extends State<PhotoVerificationPage> {
-  String? _selectedProfession;
-  bool agreeToTerms = false;
-
-  final FocusNode _firstNameFocusNode = FocusNode();
-  final FocusNode _lastNameFocusNode = FocusNode();
-  final FocusNode _emailFocusNode = FocusNode();
-
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _experienceController = TextEditingController();
-
-  bool _isFirstNameEmpty = true;
-  bool _isLastNameEmpty = true;
-  bool _isEmailEmpty = true;
-  bool _isExperienceEmpty = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _firstNameController.addListener(() {
-      setState(() {
-        _isFirstNameEmpty = _firstNameController.text.isEmpty;
-      });
-    });
-
-    _lastNameController.addListener(() {
-      setState(() {
-        _isLastNameEmpty = _lastNameController.text.isEmpty;
-      });
-    });
-
-    _emailController.addListener(() {
-      setState(() {
-        _isEmailEmpty = _emailController.text.isEmpty;
-      });
-    });
-
-    _experienceController.addListener(() {
-      setState(() {
-        _isExperienceEmpty = _experienceController.text.isEmpty;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _firstNameFocusNode.dispose();
-    _lastNameFocusNode.dispose();
-    _emailFocusNode.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _emailController.dispose();
-    _experienceController.dispose();
-    super.dispose();
-  }
+  String? _selectedIDType;
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
+          // Background image
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
             child: SizedBox(
-              height: screenHeight / 2.7,
+              height: MediaQuery.of(context).size.height / 2.7,
               child: Image.asset(
                 'assets/background_image.png',
                 fit: BoxFit.cover,
@@ -92,20 +36,12 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Back Button and Registration Title
+                  // Back button and title
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Image.asset(
-                          'assets/back_arrow.png',
-                          height: 24,
-                          width: 24,
-                        ),
+                        onTap: () => Navigator.pop(context),
+                        child: Image.asset('assets/back_arrow.png', height: 24, width: 24),
                       ),
                       const SizedBox(width: 8),
                       const Text(
@@ -114,9 +50,9 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 30),
 
-                  // Progress Bar
+                  // Progress bar
                   Center(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.75,
@@ -128,116 +64,31 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 30),
-                  const Text("Step 3 of 5", style: TextStyle(color: Colors.grey, fontSize: 14)),
-                  const SizedBox(height: 0),
+
+                  const Text("Step 4 of 5", style: TextStyle(color: Colors.grey, fontSize: 14)),
+                  const SizedBox(height: 4),
                   const Text("Verification", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   const Text("Please take a photo of your ID", style: TextStyle(fontSize: 16.5, color: Colors.grey)),
                   const SizedBox(height: 16),
 
+                  // Dropdown for ID type
                   DropdownButtonFormField<String>(
-                    value: (_selectedProfession == null || _selectedProfession!.isEmpty) ? null : _selectedProfession,
-                    hint: const Text(
-                      'Select ID Type',
-                      style: TextStyle(
-                        color: Colors.black38,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    value: _selectedIDType,
+                    hint: const Text('Select ID Type', style: TextStyle(color: Colors.black38, fontWeight: FontWeight.w400)),
                     items: [
-                      'Antenna Installer',
-                      'Appliance Technician',
-                      'Arborist',
-                      'Architect',
-                      'Designer',
-                      'Asbestos Remover/Inspector',
-                      'Bricklayer',
-                      'Builder',
-                      'Cabinet Maker/Joiner',
-                      'Carpenter',
-                      'Carpet-layer',
-                      'Cladding Specialist',
-                      'Cleaner',
-                      'Concrete Layer',
-                      'Curtain and Blind Professional',
-                      'Demolition Expert',
-                      'Door Specialist',
-                      'Ducted Vacuum Specialist',
-                      'Electrician',
-                      'Excavation Contractor',
-                      'Exterior Cleaner',
-                      'Fabricator',
-                      'Fencing and Gate Professional',
-                      'Fire Services Professional',
-                      'Flooring Professional',
-                      'Foundation Specialist',
-                      'Furniture Repair Professional',
-                      'Garage Door Specialist',
-                      'Gardener',
-                      'Gas-fitter',
-                      'Gib Stopper',
-                      'Glazier',
-                      'Handyman',
-                      'Heating Professional',
-                      'Insulation Professional',
-                      'Interior Designer',
-                      'Irrigation Specialist',
-                      'Landscaper',
-                      'Lighting Specialist',
-                      'Locksmith',
-                      'Marine Specialist',
-                      'Mover/Removalist',
-                      'Painter/Decorator',
-                      'Pest Control Expert',
-                      'Plasterer',
-                      'Plumber',
-                      'Project Manager',
-                      'Property Inspector/Valuer',
-                      'Renovation Specialist',
-                      'Resurfacing Specialist',
-                      'Roofer',
-                      'Scaffolder',
-                      'Security Specialist',
-                      'Shade Sail Installer',
-                      'Shed Installer',
-                      'Signwritter',
-                      'Skylight Installer',
-                      'Solar Specialist',
-                      'Staircase Specialist',
-                      'Stonemason',
-                      'Surveyor',
-                      'Engineer',
-                    ].map((profession) {
-                      return DropdownMenuItem(
-                        value: profession,
-                        child: Text(
-                          profession,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedProfession = value;
-                      });
-                    },
-                    icon: Image.asset(
-                      'assets/arrow_down.png',
-                      width: 20,
-                      height: 20,
-                      color: Colors.black, // optional: tint the icon if it's a single-color PNG
-                    ),
+                      "Voter's ID",
+                      "Driver's License",
+                      "Passport ID",
+                      "Tin ID",
+                      "Alien/Immigrant CoR",
+                      "Kiwi Access Card",
+                    ].map((idType) => DropdownMenuItem(value: idType, child: Text(idType))).toList(),
+                    onChanged: (value) => setState(() => _selectedIDType = value),
+                    icon: Image.asset('assets/arrow_down.png', width: 20, height: 20),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: 'Job Category',
-                      hintStyle: const TextStyle(color: Colors.black38),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(color: Colors.black54),
@@ -254,15 +105,58 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
                   ),
                   const SizedBox(height: 16),
 
+                  // Front / Back tabs with dashed border
+                  DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: TabBar(
+                            indicator: const UnderlineTabIndicator(
+                              borderSide: BorderSide(width: 2.5, color: Colors.indigo),
+                              insets: EdgeInsets.symmetric(horizontal: 105.0),
+                            ),
+                            labelColor: Colors.indigo,
+                            unselectedLabelColor: Colors.grey,
+                            tabs: const [
+                              Tab(text: 'Front'),
+                              Tab(text: 'Back'),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        SizedBox(
+                          height: 250,
+                          child: CustomPaint(
+                            painter: DashedBorderPainter(),
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: const Icon(Icons.add, size: 40, color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const Center(
+                    child: Text(
+                      "Please provide a photo of your ID",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  const Spacer(),
 
-                  // Next Button
+                  // Next button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const PhotoVerificationPage()),
+                          MaterialPageRoute(builder: (context) => const UploadFilesPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -274,15 +168,11 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
                       ),
                       child: const Text(
                         "Next",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 66),
                 ],
               ),
             ),
@@ -291,4 +181,35 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
       ),
     );
   }
+}
+
+// Dashed Border Painter
+class DashedBorderPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    const dashWidth = 6.0;
+    const dashSpace = 5.0;
+    final paint = Paint()
+      ..color = Colors.grey
+      ..strokeWidth = 1.5
+      ..style = PaintingStyle.stroke;
+
+    final rect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      const Radius.circular(12),
+    );
+
+    final path = Path()..addRRect(rect);
+    for (final metric in path.computeMetrics()) {
+      double distance = 0.0;
+      while (distance < metric.length) {
+        final next = distance + dashWidth;
+        canvas.drawPath(metric.extractPath(distance, next), paint);
+        distance += dashWidth + dashSpace;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

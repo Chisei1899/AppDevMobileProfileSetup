@@ -9,62 +9,32 @@ class AddressPage extends StatefulWidget {
 }
 
 class _AddressPageState extends State<AddressPage> {
-  bool agreeToTerms = false;
+  final FocusNode _regionFocus = FocusNode();
+  final FocusNode _cityFocus = FocusNode();
+  final FocusNode _suburbFocus = FocusNode();
+  final FocusNode _streetNameFocus = FocusNode();
 
-  final FocusNode _firstNameFocusNode = FocusNode();
-  final FocusNode _lastNameFocusNode = FocusNode();
-  final FocusNode _addressFocusNode = FocusNode();
-  final FocusNode _emailFocusNode = FocusNode();
-
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-
-  bool _isFirstNameEmpty = true;
-  bool _isLastNameEmpty = true;
-  bool _isAddressEmpty = true;
-  bool _isEmailEmpty = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _firstNameController.addListener(() {
-      setState(() {
-        _isFirstNameEmpty = _firstNameController.text.isEmpty;
-      });
-    });
-
-    _lastNameController.addListener(() {
-      setState(() {
-        _isLastNameEmpty = _lastNameController.text.isEmpty;
-      });
-    });
-
-    _addressController.addListener(() {
-      setState(() {
-        _isAddressEmpty = _addressController.text.isEmpty;
-      });
-    });
-
-    _emailController.addListener(() {
-      setState(() {
-        _isEmailEmpty = _emailController.text.isEmpty;
-      });
-    });
-  }
+  final TextEditingController _regionController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _suburbController = TextEditingController();
+  final TextEditingController _streetNameController = TextEditingController();
+  final TextEditingController _streetNoController = TextEditingController();
+  final TextEditingController _unitNoController = TextEditingController();
+  final TextEditingController _postCodeController = TextEditingController();
 
   @override
   void dispose() {
-    _firstNameFocusNode.dispose();
-    _lastNameFocusNode.dispose();
-    _addressFocusNode.dispose();
-    _emailFocusNode.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _addressController.dispose();
-    _emailController.dispose();
+    _regionFocus.dispose();
+    _cityFocus.dispose();
+    _suburbFocus.dispose();
+    _streetNameFocus.dispose();
+    _regionController.dispose();
+    _cityController.dispose();
+    _suburbController.dispose();
+    _streetNameController.dispose();
+    _streetNoController.dispose();
+    _unitNoController.dispose();
+    _postCodeController.dispose();
     super.dispose();
   }
 
@@ -94,31 +64,24 @@ class _AddressPageState extends State<AddressPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // First Row: Back Button + Registration Text
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
+                        onTap: () => Navigator.pop(context),
                         child: Image.asset(
                           'assets/back_arrow.png',
-                          height: 24, // adjust size as needed
+                          height: 24,
                           width: 24,
                         ),
                       ),
-                      const SizedBox(width: 8), // a little space between the back arrow and text
+                      const SizedBox(width: 8),
                       const Text(
                         "Registration",
                         style: TextStyle(fontSize: 19, color: Colors.black54),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 50), // space after back & title row
-
-                  // Second: Linear Progress Indicator
+                  const SizedBox(height: 50),
                   Center(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.75,
@@ -130,201 +93,76 @@ class _AddressPageState extends State<AddressPage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 30),
-                  const Text(
-                    "Step 2 of 5",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
-                  ),
+                  const Text("Step 2 of 5", style: TextStyle(color: Colors.grey, fontSize: 14)),
                   const SizedBox(height: 0),
-                  const Text(
-                    "Fill your information",
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                  ),
+                  const Text("Fill your information",
+                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 2),
-                  const Text(
-                    "Provide your personal details to get started.",
-                    style: TextStyle(fontSize: 16.5 , color: Colors.grey),
-                  ),
+                  const Text("Provide your personal details to get started.",
+                      style: TextStyle(fontSize: 16.5, color: Colors.grey)),
                   const SizedBox(height: 16),
 
+                  // Region
                   TextField(
-                    controller: _firstNameController,
-                    focusNode: _firstNameFocusNode,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: _isFirstNameEmpty && !_firstNameFocusNode.hasFocus
-                          ? 'Region'
-                          : '',
-                      hintStyle: const TextStyle(color: Colors.black38),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54, width: 2),
-                      ),
-                    ),
+                    controller: _regionController,
+                    focusNode: _regionFocus,
+                    decoration: _buildInputDecoration('Region'),
                   ),
                   const SizedBox(height: 16),
 
+                  // City/Town
                   TextField(
-                    controller: _lastNameController,
-                    focusNode: _lastNameFocusNode,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: _isLastNameEmpty && !_lastNameFocusNode.hasFocus
-                          ? 'City/Town'
-                          : '',
-                      hintStyle: const TextStyle(color: Colors.black38),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54, width: 2),
-                      ),
-                    ),
+                    controller: _cityController,
+                    focusNode: _cityFocus,
+                    decoration: _buildInputDecoration('City/Town'),
                   ),
                   const SizedBox(height: 16),
 
+                  // Suburb
                   TextField(
-                    controller: _addressController,
-                    focusNode: _addressFocusNode,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: _isAddressEmpty && !_addressFocusNode.hasFocus
-                          ? 'Suburb'
-                          : '',
-                      hintStyle: const TextStyle(color: Colors.black38),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54, width: 2),
-                      ),
-                    ),
+                    controller: _suburbController,
+                    focusNode: _suburbFocus,
+                    decoration: _buildInputDecoration('Suburb'),
                   ),
                   const SizedBox(height: 16),
 
+                  // Street Name
                   TextField(
-                    controller: _emailController,
-                    focusNode: _emailFocusNode,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: _isEmailEmpty && !_emailFocusNode.hasFocus
-                          ? 'Street Name'
-                          : '',
-                      hintStyle: const TextStyle(color: Colors.black38),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54, width: 2),
-                      ),
-                    ),
+                    controller: _streetNameController,
+                    focusNode: _streetNameFocus,
+                    decoration: _buildInputDecoration('Street Name'),
                   ),
                   const SizedBox(height: 16),
 
+                  // Street No & Unit No
                   Row(
                     children: [
                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                            hintText: 'Street No.',
-                            hintStyle: TextStyle(color: Colors.black38),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.black54),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.black12),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.black54, width: 2),
-                            ),
-                          ),
+                          controller: _streetNoController,
+                          decoration: _buildInputDecoration('Street No.'),
                         ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                            hintText: 'Unit No.',
-                            hintStyle: TextStyle(color: Colors.black38),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.black54),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.black12),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: Colors.black54, width: 2),
-                            ),
-                          ),
+                          controller: _unitNoController,
+                          decoration: _buildInputDecoration('Unit No.'),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16),
 
+                  // Post Code
                   TextField(
-                    controller: _emailController,
-                    focusNode: _emailFocusNode,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                      hintText: _isEmailEmpty && !_emailFocusNode.hasFocus
-                          ? 'Post Code'
-                          : '',
-                      hintStyle: const TextStyle(color: Colors.black38),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black54, width: 2),
-                      ),
-                    ),
+                    controller: _postCodeController,
+                    decoration: _buildInputDecoration('Post Code'),
                   ),
                   const SizedBox(height: 153),
 
+                  // Next Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -343,21 +181,36 @@ class _AddressPageState extends State<AddressPage> {
                       ),
                       child: const Text(
                         "Next",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 50),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  InputDecoration _buildInputDecoration(String hint) {
+    return InputDecoration(
+      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+      hintText: hint,
+      hintStyle: const TextStyle(color: Colors.black38),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.black54),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.black12),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.black54, width: 2),
       ),
     );
   }

@@ -10,7 +10,6 @@ class BusinessDetailPage extends StatefulWidget {
 
 class _BusinessDetailPage extends State<BusinessDetailPage> {
   String? _selectedProfession;
-  bool agreeToTerms = false;
 
   final FocusNode _firstNameFocusNode = FocusNode();
   final FocusNode _lastNameFocusNode = FocusNode();
@@ -93,7 +92,6 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Back Button and Registration Title
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -116,8 +114,6 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
                     ],
                   ),
                   const SizedBox(height: 50),
-
-                  // Progress Bar
                   Center(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.75,
@@ -129,7 +125,6 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 30),
                   const Text("Step 3 of 5", style: TextStyle(color: Colors.grey, fontSize: 14)),
                   const SizedBox(height: 0),
@@ -138,7 +133,6 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
                   const Text("Tell us about your business.", style: TextStyle(fontSize: 16.5, color: Colors.grey)),
                   const SizedBox(height: 16),
 
-                  // Business Type
                   TextField(
                     controller: _firstNameController,
                     focusNode: _firstNameFocusNode,
@@ -164,7 +158,6 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Company Type
                   TextField(
                     controller: _lastNameController,
                     focusNode: _lastNameFocusNode,
@@ -285,7 +278,7 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
                       'assets/arrow_down.png',
                       width: 20,
                       height: 20,
-                      color: Colors.black, // optional: tint the icon if it's a single-color PNG
+                      color: Colors.black,
                     ),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
@@ -307,7 +300,6 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Your Role
                   TextField(
                     controller: _emailController,
                     focusNode: _emailFocusNode,
@@ -333,7 +325,6 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Job Experience
                   TextField(
                     controller: _experienceController,
                     decoration: InputDecoration(
@@ -356,7 +347,6 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
                   ),
                   const SizedBox(height: 215),
 
-                  // Next Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
