@@ -11,13 +11,15 @@ class PhotoVerificationPage extends StatefulWidget {
 class _PhotoVerificationPage extends State<PhotoVerificationPage> {
   String? _selectedIDType;
 
+  // New flag to track if the ID type is empty and user tried to submit
+  bool _isIDTypeEmpty = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          // Background image
           Positioned(
             bottom: 0,
             left: 0,
@@ -36,7 +38,6 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Back button and title
                   Row(
                     children: [
                       GestureDetector(
@@ -51,8 +52,6 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
                     ],
                   ),
                   const SizedBox(height: 30),
-
-                  // Progress bar
                   Center(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.75,
@@ -65,7 +64,6 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
                     ),
                   ),
                   const SizedBox(height: 30),
-
                   const Text("Step 4 of 5", style: TextStyle(color: Colors.grey, fontSize: 14)),
                   const SizedBox(height: 4),
                   const Text("Verification", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
@@ -73,10 +71,16 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
                   const Text("Please take a photo of your ID", style: TextStyle(fontSize: 16.5, color: Colors.grey)),
                   const SizedBox(height: 16),
 
-                  // Dropdown for ID type
+                  // Dropdown with dynamic error styling
                   DropdownButtonFormField<String>(
                     value: _selectedIDType,
-                    hint: const Text('Select ID Type', style: TextStyle(color: Colors.black38, fontWeight: FontWeight.w400)),
+                    hint: Text(
+                      'Select ID Type',
+                      style: TextStyle(
+                        color: _isIDTypeEmpty ? Colors.red : Colors.black38,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     items: [
                       "Voter's ID",
                       "Driver's License",
@@ -85,27 +89,49 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
                       "Alien/Immigrant CoR",
                       "Kiwi Access Card",
                     ].map((idType) => DropdownMenuItem(value: idType, child: Text(idType))).toList(),
-                    onChanged: (value) => setState(() => _selectedIDType = value),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedIDType = value;
+                        _isIDTypeEmpty = false; // Clear error once user picks
+                      });
+                    },
                     icon: Image.asset('assets/arrow_down.png', width: 20, height: 20),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.black54),
+                        borderSide: BorderSide(
+                          color: _isIDTypeEmpty ? Colors.red : Colors.black54,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.black12),
+                        borderSide: BorderSide(
+                          color: _isIDTypeEmpty ? Colors.red : Colors.black12,
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.black54, width: 2),
+                        borderSide: BorderSide(
+                          color: _isIDTypeEmpty ? Colors.red : Colors.black54,
+                          width: 2,
+                        ),
                       ),
                     ),
                   ),
+
+                  // Show error message if dropdown is empty on submit
+                  if (_isIDTypeEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, left: 12),
+                      child: Text(
+                        'Please select an ID type',
+                        style: TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
+
                   const SizedBox(height: 16),
 
-                  // Front / Back tabs with dashed border
                   DefaultTabController(
                     length: 2,
                     child: Column(
@@ -149,11 +175,19 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
                   ),
                   const Spacer(),
 
-                  // Next button
+                  // On Next pressed, validate the dropdown
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        if (_selectedIDType == null || _selectedIDType!.isEmpty) {
+                          setState(() {
+                            _isIDTypeEmpty = true;
+                          });
+                          return; // prevent navigation if invalid
+                        }
+
+                        // Proceed if valid
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const UploadFilesPage()),
@@ -183,7 +217,7 @@ class _PhotoVerificationPage extends State<PhotoVerificationPage> {
   }
 }
 
-// Dashed Border Painter
+// Dashed Border Painter remains unchanged
 class DashedBorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

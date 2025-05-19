@@ -167,10 +167,31 @@ class _AddressPageState extends State<AddressPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const BusinessDetailPage()),
-                        );
+                        if (_regionController.text.trim().isEmpty ||
+                            _cityController.text.trim().isEmpty ||
+                            _suburbController.text.trim().isEmpty ||
+                            _streetNameController.text.trim().isEmpty ||
+                            _streetNoController.text.trim().isEmpty ||
+                            _unitNoController.text.trim().isEmpty ||
+                            _postCodeController.text.trim().isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Center(
+                                child: Text(
+                                  'Please fill out all address fields.',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              backgroundColor: Colors.red,
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const BusinessDetailPage()),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.indigo.shade900,

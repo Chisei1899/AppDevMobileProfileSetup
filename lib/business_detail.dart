@@ -351,10 +351,30 @@ class _BusinessDetailPage extends State<BusinessDetailPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const PhotoVerificationPage()),
-                        );
+                        if (_firstNameController.text.trim().isEmpty ||
+                            _lastNameController.text.trim().isEmpty ||
+                            _selectedProfession == null ||
+                            _selectedProfession!.isEmpty ||
+                            _emailController.text.trim().isEmpty ||
+                            _experienceController.text.trim().isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Center(
+                                child: Text(
+                                  'Please fill out all business details.',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              backgroundColor: Colors.red,
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PhotoVerificationPage()),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.indigo.shade900,
